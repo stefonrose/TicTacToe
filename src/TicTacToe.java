@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -38,31 +40,16 @@ public class TicTacToe {
 
     public Piece getWinner() {
         Move[][] wins = Move.winningMoves();
-        boolean threeInARow = true;
 
-        for (Move[] winArray : wins) {
-            Piece[] winPosition = new Piece[3];
-            for (int i = 0; i < winArray.length; i++) {
-                Move win = winArray[i];
-                Piece player = board[win.getRow()][win.getCol()];
-                if (player != null) {
-                    winPosition[i] = player;
-                } else {
-                    threeInARow = false;
-                }
+        for (Move[] win : wins) {
+            List<Piece> winningPositions = new LinkedList<Piece>();
+            for (Move location: win) {
+                winningPositions.add(board[location.getRow()][location.getCol()]);
             }
-            if (threeInARow) {
-                for (Piece p : winPosition) {
-                    if (!p.isEqual(winPosition[0])) {
-                        threeInARow = false;
-                    }
-                }
-                if (threeInARow) {
-                    return winPosition[0];
-                }
-
+            if (winningPositions.get(0) == winningPositions.get(1) &&
+                    winningPositions.get(0) == winningPositions.get(2)) {
+                return winningPositions.get(0);
             }
-
         }
         return null;
     }
@@ -127,6 +114,9 @@ public class TicTacToe {
             if (game.movesTilDraw() == 0) {
                 System.out.printf("Progress: This game is a draw!\n\n%s\n\n", game);
                 complete = true;
+            } else if (game.getWinner() != null) {
+                System.out.printf("Progress: %s is the winner!\n\n%s\n\n", game.getWinner(), game);
+                complete = true;
             } else if (game.getWinner() == null) {
                 System.out.printf("Progress: No winner yet...\n\n%s\n\n", game);
 
@@ -150,9 +140,6 @@ public class TicTacToe {
                     System.out.println("The location you entered is out of bounds.\nPlease enter another.\n");
                     continue;
                 }
-            } else if (game.getWinner() != null) {
-                System.out.printf("Progress: %s is the winner!\n\n%s\n\n", game.getWinner(), game);
-                complete = true;
             }
         }
     }
