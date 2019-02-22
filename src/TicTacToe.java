@@ -1,7 +1,6 @@
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
+import java.util.List;
 
 public class TicTacToe {
 
@@ -21,32 +20,17 @@ public class TicTacToe {
         }
     }
 
-    public int[] convertInput(String input) {
-        String[] inputStringArr = input.split(",");
-        int[] move = new int[2];
-        String n;
-
-        n = inputStringArr[0].replaceAll("\\s", "");
-        move[0] = Integer.parseInt(n);
-
-        n = inputStringArr[1].replaceAll("\\s", "");
-        move[1] = Integer.parseInt(n);
-        System.out.printf("\n\n*debugging* converted input is %s\n\n", Arrays.toString(move));
-
-        return move;
-    }
-
-    public boolean validInput(int[] location) {
-        int row = location[0];
-        int col = location[1];
+    public boolean validInput(Move location) {
+        int row = location.getRow();
+        int col = location.getCol();
         boolean validRow = row >= 0 && row <= 2;
         boolean validCol = col >= 0 && col <= 2;
         return validRow && validCol;
     }
 
-    public boolean isEmpty(int[] location) {
-        int row = location[0];
-        int col = location[1];
+    public boolean isEmpty(Move location) {
+        int row = location.getRow();
+        int col = location.getCol();
         return board[row][col] == null;
     }
 
@@ -62,15 +46,14 @@ public class TicTacToe {
                         {{1, 0}, {1, 1}, {1, 2}}, {{2, 0}, {2, 1}, {2, 2}},
                         {{0, 0}, {1, 1}, {2, 2}}, {{0, 2}, {1, 1}, {2, 0}}
                 };
-        //Piece winner = null;
+
         for (int[][] win : wins) {
-            List<Piece> winningPositions = new LinkedList<Piece>();
+            List<Piece> winningPositions = new LinkedList<>();
             for (int[] location : win) {
                 int row = location[0];
                 int col = location[1];
                 winningPositions.add(board[row][col]);
             }
-            //Piece pos1 = winningPositions.get(0);
             if (winningPositions.get(0) == winningPositions.get(1) &&
                     winningPositions.get(0) == winningPositions.get(2)) {
                 return winningPositions.get(0);
@@ -82,9 +65,6 @@ public class TicTacToe {
     public String toString() {
         String board = "";
         for (int row = 0; row < this.board.length; row++) {
-//            for (int col = 0; col < this.board[row].length; col++) {
-//                board += "--";
-//            }
             board += "|";
             for (int col = 0; col < this.board[row].length; col++) {
                 if (col != 0) {
@@ -98,9 +78,9 @@ public class TicTacToe {
         return board;
     }
 
-    public void play(int[] location) {
-        int row = location[0];
-        int col = location[1];
+    public void play(Move location) {
+        int row = location.getRow();
+        int col = location.getCol();
         board[row][col] = player[nextPlayer];
         nextPlayer = nextPlayer != 0 ? 0 : 1;
         totalMoves++;
@@ -126,7 +106,7 @@ public class TicTacToe {
                 System.out.println("Press enter to begin!");
                 String begin = input.nextLine();
                 break;
-            } else if (rules.toLowerCase().equals("n")){
+            } else if (rules.toLowerCase().equals("n")) {
                 break;
             } else {
                 System.out.println("Pleas enter 'Y' for yes or 'N' for no.");
@@ -139,7 +119,7 @@ public class TicTacToe {
         boolean complete = false;
 
         while (!complete) {
-            if (game.totalMoves > 8) {
+            if (game.movesRemaining() == 0) {
                 System.out.printf("Progress: This game is a draw!\n\n%s", game);
                 complete = true;
             } else if (game.getWinner() == null) {
@@ -147,9 +127,9 @@ public class TicTacToe {
 
                 System.out.printf("%s, it's your turn:\n\n", game.player[game.nextPlayer]);
                 String playerInput = input.nextLine();
-                int[] playerMove = new int[2];
+                Move playerMove;
                 try {
-                    playerMove = game.convertInput(playerInput);
+                    playerMove = new Move(playerInput);
                 } catch (NumberFormatException e) {
                     System.out.println("That was not a valid input.\nPlease enter 2 numbers separated by a comma.\n");
                     continue;
