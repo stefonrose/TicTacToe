@@ -14,6 +14,10 @@ public class Piece {
         this.piece = piece;
     }
 
+    public boolean isEqual(Piece p){
+        return this.piece == p.piece;
+    }
+
     public String toString() {
         return "" + piece;
     }

@@ -1,6 +1,4 @@
-import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.List;
 
 public class TicTacToe {
 
@@ -34,30 +32,37 @@ public class TicTacToe {
         return board[row][col] == null;
     }
 
-    public int movesRemaining() {
+    public int movesTilDraw() {
         return board.length * board.length - totalMoves;
     }
 
     public Piece getWinner() {
-        int[][][] wins =
-                {
-                        {{0, 0}, {1, 0}, {2, 0}}, {{0, 1}, {1, 1}, {2, 1}},
-                        {{0, 2}, {1, 2}, {2, 2}}, {{0, 0}, {0, 1}, {0, 2}},
-                        {{1, 0}, {1, 1}, {1, 2}}, {{2, 0}, {2, 1}, {2, 2}},
-                        {{0, 0}, {1, 1}, {2, 2}}, {{0, 2}, {1, 1}, {2, 0}}
-                };
+        Move[][] wins = Move.winningMoves();
+        boolean threeInARow = true;
 
-        for (int[][] win : wins) {
-            List<Piece> winningPositions = new LinkedList<>();
-            for (int[] location : win) {
-                int row = location[0];
-                int col = location[1];
-                winningPositions.add(board[row][col]);
+        for (Move[] winArray : wins) {
+            Piece[] winPosition = new Piece[3];
+            for (int i = 0; i < winArray.length; i++) {
+                Move win = winArray[i];
+                Piece player = board[win.getRow()][win.getCol()];
+                if (player != null) {
+                    winPosition[i] = player;
+                } else {
+                    threeInARow = false;
+                }
             }
-            if (winningPositions.get(0) == winningPositions.get(1) &&
-                    winningPositions.get(0) == winningPositions.get(2)) {
-                return winningPositions.get(0);
+            if (threeInARow) {
+                for (Piece p : winPosition) {
+                    if (!p.isEqual(winPosition[0])) {
+                        threeInARow = false;
+                    }
+                }
+                if (threeInARow) {
+                    return winPosition[0];
+                }
+
             }
+
         }
         return null;
     }
@@ -98,7 +103,7 @@ public class TicTacToe {
             if (rules.toLowerCase().equals("y")) {
                 String example1 = "|* * *|\n|X * *|\n|* * *|\n";
                 String example2 = "|* * *|\n|X * *|\n|* O *|\n";
-                System.out.println("How to play:\nEnter two numbers separated by a comma to indicate where you would like to make move.");
+                System.out.println("How to play:\nEnter two numbers separated by a comma to indicate where you would like to make a move.");
                 System.out.println("The first number indicates the row, while the second number indicates the column.");
                 System.out.println("Enter 0 for the first row/column, 1 for the middle row/column and 2 for the last row/column.");
                 System.out.println("For example player 'X' entering 1,0 results in:\n" + example1 + "\n");
@@ -119,8 +124,8 @@ public class TicTacToe {
         boolean complete = false;
 
         while (!complete) {
-            if (game.movesRemaining() == 0) {
-                System.out.printf("Progress: This game is a draw!\n\n%s", game);
+            if (game.movesTilDraw() == 0) {
+                System.out.printf("Progress: This game is a draw!\n\n%s\n\n", game);
                 complete = true;
             } else if (game.getWinner() == null) {
                 System.out.printf("Progress: No winner yet...\n\n%s\n\n", game);
@@ -146,7 +151,7 @@ public class TicTacToe {
                     continue;
                 }
             } else if (game.getWinner() != null) {
-                System.out.printf("Progress: %s is the winner!\n\n%s", game.getWinner(), game);
+                System.out.printf("Progress: %s is the winner!\n\n%s\n\n", game.getWinner(), game);
                 complete = true;
             }
         }
