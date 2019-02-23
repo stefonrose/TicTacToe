@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -99,7 +98,7 @@ public class TicTacToe {
             } else if (rules.toLowerCase().equals("n")) {
                 break;
             } else {
-                System.out.println("Pleas enter 'Y' for yes or 'N' for no.");
+                System.out.println("Please enter 'Y' for yes or 'N' for no.");
                 continue;
             }
         }
