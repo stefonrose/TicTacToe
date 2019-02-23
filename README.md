@@ -10,3 +10,7 @@ by navigating to the src folder in your terminal and running the following comma
 
 - javac TicTacToe.java
 - java TicTacToe
+
+Here is a demonstration of a single game, with errors that users are likely to make:
+
+![Demonstration](https://i.imgur.com/mrJfohn.gif)
