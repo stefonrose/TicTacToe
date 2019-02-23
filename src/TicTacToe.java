@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,9 +30,7 @@ public class TicTacToe {
     }
 
     public boolean isEmpty(Move location) {
-        int row = location.getRow();
-        int col = location.getCol();
-        return board[row][col] == null;
+        return board[location.getRow()][location.getCol()] == null;
     }
 
     public int movesTilDraw() {
@@ -43,7 +42,7 @@ public class TicTacToe {
 
         for (Move[] win : wins) {
             List<Piece> winningPositions = new LinkedList<Piece>();
-            for (Move location: win) {
+            for (Move location : win) {
                 winningPositions.add(board[location.getRow()][location.getCol()]);
             }
             if (winningPositions.get(0) == winningPositions.get(1) &&
@@ -71,9 +70,7 @@ public class TicTacToe {
     }
 
     public void play(Move location) {
-        int row = location.getRow();
-        int col = location.getCol();
-        board[row][col] = player[nextPlayer];
+        board[location.getRow()][location.getCol()] = player[nextPlayer];
         nextPlayer = nextPlayer != 0 ? 0 : 1;
         totalMoves++;
     }
@@ -85,18 +82,19 @@ public class TicTacToe {
         System.out.println("Time for a game of Tic-Tac-Toe.\n");
 
         while (true) {
-            System.out.println("Would you like to know how to play?\n[Y]es\n[N]o");
+            System.out.println("Would you like to know how to play?\n[Y]es\n[N]o\n");
             String rules = input.nextLine();
             if (rules.toLowerCase().equals("y")) {
                 String example1 = "|* * *|\n|X * *|\n|* * *|\n";
                 String example2 = "|* * *|\n|X * *|\n|* O *|\n";
-                System.out.println("How to play:\nEnter two numbers separated by a comma to indicate where you would like to make a move.");
+                System.out.println("\nHow to play:\nEnter two numbers separated by a comma to indicate where you would like to make a move.");
                 System.out.println("The first number indicates the row, while the second number indicates the column.");
                 System.out.println("Enter 0 for the first row/column, 1 for the middle row/column and 2 for the last row/column.");
                 System.out.println("For example player 'X' entering 1,0 results in:\n" + example1 + "\n");
                 System.out.println("And player 'O' entering 2,1 results in:\n" + example2 + "\n");
                 System.out.println("Press enter to begin!");
-                String begin = input.nextLine();
+                input.nextLine();
+
                 break;
             } else if (rules.toLowerCase().equals("n")) {
                 break;
@@ -104,7 +102,6 @@ public class TicTacToe {
                 System.out.println("Pleas enter 'Y' for yes or 'N' for no.");
                 continue;
             }
-
         }
 
 

@@ -36,7 +36,7 @@ public class Move {
         return col;
     }
 
-    public static Move[][] winningMoves(){
+    public static Move[][] winningMoves() {
         Move[][] wins = {
                 {new Move("0,0"), new Move("1,0"), new Move("2,0")},
                 {new Move("0,1"), new Move("1,1"), new Move("2,1")},
@@ -46,8 +46,7 @@ public class Move {
                 {new Move("2,0"), new Move("2,1"), new Move("2,2")},
                 {new Move("0,0"), new Move("1,1"), new Move("2,2")},
                 {new Move("0,2"), new Move("1,1"), new Move("2,0")}
-                        };
+        };
         return wins;
     }
-
 }
