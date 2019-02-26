@@ -40,7 +40,7 @@ public class TicTacToe {
         Move[][] wins = Move.winningMoves();
 
         for (Move[] win : wins) {
-            List<Piece> winningPositions = new LinkedList<Piece>();
+            List<Piece> winningPositions = new LinkedList<>();
             for (Move location : win) {
                 winningPositions.add(board[location.getRow()][location.getCol()]);
             }
