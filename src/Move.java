@@ -9,22 +9,31 @@ public class Move {
         location = new int[2];
         String n;
 
-        n = inputStringArr[0].replaceAll("\\s", "");
         try {
+            n = inputStringArr[0].replaceAll("\\s", "");
             int num = Integer.parseInt(n);
             location[0] = num;
             row = num;
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException();
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            if (e instanceof NumberFormatException) {
+                throw new NumberFormatException();
+            } else {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+
         }
 
-        n = inputStringArr[1].replaceAll("\\s", "");
         try {
+            n = inputStringArr[1].replaceAll("\\s", "");
             int num = Integer.parseInt(n);
             location[1] = num;
             col = num;
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException();
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            if (e instanceof NumberFormatException) {
+                throw new NumberFormatException();
+            } else {
+                throw new ArrayIndexOutOfBoundsException();
+            }
         }
     }
 

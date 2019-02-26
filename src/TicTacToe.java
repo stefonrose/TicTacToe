@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -122,8 +121,8 @@ public class TicTacToe {
                 Move playerMove;
                 try {
                     playerMove = new Move(playerInput);
-                } catch (NumberFormatException e) {
-                    System.out.println("That was not a valid input.\nPlease enter 2 numbers separated by a comma.\n");
+                } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                    System.out.println("That was not a valid input.\nPlease enter 2 numbers separated by a comma.\nValid numbers are: 0, 1, 2\n");
                     continue;
                 }
                 if (game.validInput(playerMove)) {
